@@ -61,6 +61,37 @@ class SerieAPI(Resource):
 
         return json.dumps(res)
 
+    def delete(self, id):
+        con = Serie.query.get(id)
+        db.session.delete(con)
+        db.session.commit()
+        res = {'id':id}
+        return json.dumps(res)
+
+    def put(self, id):
+        serie = Serie.query.get(id)
+        args = parser.parse_args()
+        titulo = args['titulo']
+        genero = args['genero']
+        temporadas = args['temporadas']
+        mediaIMDB = args['mediaIMDB']
+        ativa = args['ativa']
+        serie.titulo = titulo
+        serie.genero = genero
+        serie.temporadas = temporadas
+        serie.mediaIMDB = mediaIMDB
+        serie.ativa = ativa
+        db.session.commit()
+        res = {}
+        res[serie.id] = {
+            'titulo': serie.titulo,
+            'genero': serie.genero,
+            'temporadas': str(serie.temporadas),
+            'mediaIMDB': str(serie.mediaIMDB),
+            'ativa': serie.ativa
+        }
+        return json.dumps(res)
+
 api.add_resource(
-    SerieAPI, '/api/serie','/api/<int:id>','/api/serie/<int:id>/<int:page>'
+    SerieAPI, '/api/serie','/api/serie/<int:id>','/api/serie/<int:id>/<int:page>'
 )
