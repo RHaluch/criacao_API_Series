@@ -62,5 +62,5 @@ class SerieAPI(Resource):
         return json.dumps(res)
 
 api.add_resource(
-    SerieAPI, '/api/serie','/api/<int:id>','/api/serie/<int:id>/<int:page>'
+    SerieAPI, '/api/serie','/api/serie/<int:id>','/api/serie/<int:id>/<int:page>'
 )
